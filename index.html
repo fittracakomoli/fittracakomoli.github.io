@@ -139,6 +139,14 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-6">
+                  <div class="alert alert-success alert-dismissible fade show my-alert d-none" role="alert">
+                    <strong>Terima Kasih!</strong> Pesan anda sudah kami terima.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <div class="alert alert-danger alert-dismissible fade show your-alert d-none" role="alert">
+                    <strong>Maaf!</strong> Pesan anda gagal terkirim.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
                     <form name="ftrmrelc-contact-form">
                         <div class="mb-3">
                           <label for="name" class="form-label">Nama Lengkap</label>
@@ -152,7 +160,12 @@
                             <label for="pesan" class="form-label">Pesan</label>
                             <textarea name="pesan" class="form-control" id="pesan" rows="3"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-danger">Kirim</button>
+                        <button type="submit" class="btn btn-primary btn-kirim">Kirim</button>
+
+                        <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          Loading...
+                        </button>
                       </form>
                 </div>
             </div>
@@ -172,13 +185,30 @@
 
     <script>
       const scriptURL = 'https://script.google.com/macros/s/AKfycbwPBx5yFm8lHUzWiwJNb3jpGEVspTrk2hVEcTfud7WAEJ_roeDvr7mPmkTM7xii11yl/exec'
-      const form = document.forms['ftrmrelc-contact-form']
+      const form = document.forms['ftrmrelc-contact-form'];
+      const btnKirim = document.querySelector('.btn-kirim');
+      const btnLoading = document.querySelector('.btn-loading');
+      const myAlert = document.querySelector('.my-alert');
+      const yourAlert = document.querySelector('.your-alert')
     
       form.addEventListener('submit', e => {
-        e.preventDefault()
+        e.preventDefault();
+        // ketika tombol submit diklik
+        // tampilkan tombol loading, tampilkan tombol kirim
+        btnLoading.classList.toggle('d-none');
+        btnKirim.classList.toggle('d-none');
         fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-          .then(response => console.log('Success!', response))
-          .catch(error => console.error('Error!', error.message))
+          .then(response => {
+            btnLoading.classList.toggle('d-none');
+            btnKirim.classList.toggle('d-none');
+            myAlert.classList.toggle('d-none');
+            form.reset();
+            console.log('Success!', response);
+          })
+          .catch(error => {
+            yourAlert.classList.toggle('d-none');
+            console.error('Error!', error.message);
+          })
       })
     </script>
 
