@@ -1,16 +1,24 @@
 .jumbotron {
-    padding-top: 6rem;
-    background-color: #e2edff;
+  padding-top: 6rem;
+  background-color: #e2edff;
 }
 
 #projects {
-    background-color: #e2edff;
+  background-color: #e2edff;
 }
 
 section {
-    padding-top: 5rem;
+  padding-top: 5rem;
 }
 
 form textarea {
-    resize: none;
+  resize: none;
+}
+
+.gallery-img {
+  width: 100%;
+}
+
+#gallery .row > * {
+  padding: 0;
 }
